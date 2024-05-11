@@ -8,15 +8,16 @@ class FourierUtil:
     # a0: 定数関数
     # a_array: sin関数の定数項
     # b_array: cos関数の定数項
+    # base_freq: 計算のベースとする周波数
     @staticmethod
-    def make_fourier_series_function(a0, a_array, b_array, freq=441):
+    def make_fourier_series_function(a0, a_array, b_array, base_freq=441):
         def result(t):
             cos_terms = []
             for (n, an) in enumerate(a_array):
-                cos_terms.append(an * np.cos(2 * np.pi * (n + 1) * freq * t))
+                cos_terms.append(an * np.cos(2 * np.pi * (n + 1) * base_freq * t))
             sin_terms = []
             for (n, bn) in enumerate(b_array):
-                sin_terms.append(bn * np.sin(2 * np.pi * (n + 1) * freq * t))
+                sin_terms.append(bn * np.sin(2 * np.pi * (n + 1) * base_freq * t))
             return a0 * FourierUtil.const() + sum(cos_terms) + sum(sin_terms)
         return result
 
@@ -26,14 +27,14 @@ class FourierUtil:
     # an: f(x)、cos2nπの内積
     # bn: f(x)、sos2nπの内積
     @staticmethod
-    def fourier_coefficients(f, N):
+    def fourier_coefficients(f, N, base_freq=441):
         a0 = FourierUtil.dot_function(f, FourierUtil.const)
         an_array = []
         for n in range(1, N + 1):
-            an_array.append(FourierUtil.dot_function(f, WaveFuncUtil.make_cos_2npi(n)))
+            an_array.append(FourierUtil.dot_function(f, WaveFuncUtil.make_cos_2npi(n * base_freq)))
         bn_array = []
         for n in range(1, N + 1):
-            bn_array.append(FourierUtil.dot_function(f, WaveFuncUtil.make_sin_2npi(n)))
+            bn_array.append(FourierUtil.dot_function(f, WaveFuncUtil.make_sin_2npi(n * base_freq)))
         return a0, an_array, bn_array
 
     # フーリエ解析の定数

@@ -62,7 +62,7 @@ def check_fourier_coefficients():
     f1 = FourierUtil.make_fourier_series_function(0, [2, 3, 4], [5, 6, 7], 1)
 
     # フーリエ解析を行う
-    (a0, a_array, b_array) = FourierUtil.fourier_coefficients(f1, 3)
+    (a0, a_array, b_array) = FourierUtil.fourier_coefficients(f1, 3, 1)
     f2 = FourierUtil.make_fourier_series_function(0, a_array, b_array, 1)
     print((a0, a_array, b_array))
 
